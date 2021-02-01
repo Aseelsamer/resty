@@ -1,59 +1,60 @@
 import React from 'react';
-import './form.scss';
+import superagent from 'superagent';
 
-class Form extends React.Component{
+class Form extends React.Component {
+
     constructor(props) {
-        super(props);
-        // add state.words here and initialize it
-        this.state = {
-          url : '',
-          method :''
-        }
+      super(props);
+      // add state.words here and initialize it
+      this.state = {
+        url: ' ',
+        method: ' '
       }
-    
-      handleChange = (e) => {
-          e.preventDefault();
-        // let url = e.target.method.value;
-        // let method = e.target.method.value;
-        // update this.state.words with new words
-        // this.state is immutable (you can not change it directly)
-        this.setState({method:e.target.value});
-      }
-
-      handle =(e) =>{
-        e.preventDefault();
-        // let url = e.target.method.value;
-        // let method = e.target.method.value;
-        // update this.state.words with new words
-        // this.state is immutable (you can not change it directly)
-        this.setState({url:e.target.value}); 
-      }
-    
-      handleClick = (e) => {
+    }
+  
+    onChangeValue = (e) => {
       e.preventDefault();
-      this.setState({method:this.state.method,url:this.state.url})
-      }
-
-     
-    
-      render() {
-        return (
-          <div>
-            <form onSubmit={this.handleClick}>
+      console.log(e.target.value);
+  
+      let url = e.target.url.value;
+      let method = e.target.method.value;
+      this.setState({ url, method });
+  
+      superagent.get(url)
+      .then(data => {
+       this.props.handler(data)
+  
+         
+         })
+  
+    }
+  
+  
+  
+    render() {
+      return (
+        <div>
+          <form onSubmit={this.onChangeValue} className = "content">
             <label>URL</label>
-            <div onChange={this.onChange}>
-            <button >GO!</button>
-
-            <input type="radio" value='get' onClick={this.handleChange}>GET</input>
-            <input type="radio" value='post'onClick={this.handleChange}>POST</input>
-            <input type="radio" value='put'onClick={this.handleChange}>PUT</input>
-            <input type="radio" value='delete'onClick={this.handleChange}>DELETE</input>
+            <input id="url" type="url" name="url" />
+            <button type="submit"> GO !</button>
+            <div>
+              <label for="method">Get</label>
+              <input type="radio" defaultChecked value="Get " name="method" />
+              <label for="method">Post</label>
+              <input type="radio" value="Post " name="method" />
+              <label for="method">Delete</label>
+              <input type="radio" value="Delete " name="method" />
+              <label for="method">Put</label>
+              <input type="radio" value="Put " name="method" />
             </div>
-
-            </form>
-
-          </div>
-        )
-      } 
-}
+  
+          </form>
+  
+      
+        </div>
+      )
+    }
+  }
+  
   export default Form;

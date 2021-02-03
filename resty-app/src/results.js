@@ -5,8 +5,8 @@ const Results =(props)=>{
         return(
             <div>
             <div>
-                <ReactJson name="headers" src={props.headers} />
-                <ReactJson name="response" src={props.results} />
+                <ReactJson name="headers" src={props.data.headers} />
+                <ReactJson name="response" src={props.data.body} />
 
             </div>
         </div>
